@@ -4,7 +4,13 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, required: true},
 });
 
-let UsersModel = mongoose.model('User', UserSchema);
+let UsersModel = mongoose.model('User', UserSchema, 'users');
+
+
+UsersModel.getAll = () => {
+    console.log('UsersModel.getAll');
+    return UsersModel.find({});
+}
 
 UsersModel.paginatedResults = () => {
     return async (req, res, next) => {
