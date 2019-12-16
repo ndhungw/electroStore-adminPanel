@@ -5,12 +5,12 @@ const controller = {};
 
 controller.getAll = async (req, res) => {
     try {
-        const cars = await Car.getAll();
-        logger.info('sending all cars...');
-        res.send(cars);
+        const users = await userModel.getAll();
+        console.log('sending all users...');
+        res.send(users);
     }
     catch(err) {
-        logger.error('Error in getting cars- ' + err);
+        console.log('Error in getting users- ' + err);
         res.send('Got error in getAll');
     }
 }

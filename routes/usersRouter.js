@@ -6,9 +6,12 @@ var database = require('../database');
 
 /* GET users listing. */
 
-  router.get('/', userModel.paginatedResults(), (req, res, next) => {
-    res.json(res.paginatedResults);
-  });
-  
-  module.exports = router;
-  
+router.get('/', userModel.paginatedResults(), (req, res, next) => {
+  res.json(res.paginatedResults);
+});
+
+router.get('/allusers', (req, res) => {
+  userController.getAll(req, res);
+});
+
+module.exports = router;
