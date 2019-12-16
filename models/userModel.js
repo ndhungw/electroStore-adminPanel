@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    name: { type: String, required: true},
+    username: { type: String, required: true },
+    fullname: { type: String, required: true },
+    gender: { type: String, required: true },
+    age: { type: Number, required: true },
 });
 
 let UsersModel = mongoose.model('User', UserSchema, 'users');
@@ -9,7 +12,8 @@ let UsersModel = mongoose.model('User', UserSchema, 'users');
 
 UsersModel.getAll = () => {
     console.log('UsersModel.getAll');
-    return UsersModel.find({});
+    var query = UsersModel.find({});
+    return query;//nếu query.exec() thì var promise=query.exec();
 }
 
 UsersModel.paginatedResults = () => {
@@ -57,31 +61,31 @@ UsersModel.paginatedResults = () => {
 //     return async (req, res, next) => {
 //       const page = parseInt(req.query.page);
 //       const limit = parseInt(req.query.limit);
-      
+
 //       const startIndex = (page - 1) * limit;
 //       const endIndex = page * limit;
-      
+
 //       const resultsss = {};
-      
+
 //       resultsss.current = {
 //         page: page,
 //         limit: limit
 //       }
-      
+
 //       if (endIndex < await model.countDocuments().exec()) {
 //         resultsss.next = {
 //           page: page + 1,
 //           limit: limit
 //         };
 //       }
-      
+
 //       if (startIndex > 0) {
 //         resultsss.previous = {
 //           page: page - 1,
 //           limit: limit
 //         };
 //       }
-      
+
 //       try{
 //         resultsss.results = await model.find().limit(limit).skip(startIndex).exec();
 //         res.paginatedResults = resultsss;
