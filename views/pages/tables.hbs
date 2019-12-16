@@ -51,7 +51,7 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                    {{#each user}}
+                    {{#each users}}
                     <tr>
                       <td>{{this.username}}</td>
                       <td>{{this.fullname}}</td>
@@ -62,6 +62,17 @@
                   </tbody>
                 </table>
               </div>
+
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="/users/?page={{previousPage.page}}&limit={{previousPage.limit}}">Previous</a></li>
+                  {{!-- <li class="page-item"><a class="page-link" href="/users/?page={{previousPage.page}}&limit={{previousPage.limit}}">{{previousPage.page}}</a></li> --}}
+                  <li class="page-item"><a class="page-link" href="/users/?page={{currentPage.page}}&limit={{currentPage.limit}}">{{currentPage.page}}</a></li>
+                  {{!-- <li class="page-item"><a class="page-link" href="/users/?page=3&limit=5">3</a></li> --}}
+                  <li class="page-item"><a class="page-link" href="/users/?page={{nextPage.page}}&limit={{nextPage.limit}}">Next</a></li>
+                </ul>
+              </nav>
+
             </div>
           </div>
 
@@ -98,12 +109,12 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
+  {{!-- <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
+  <script src="js/demo/datatables-demo.js"></script> --}}
 
 </body>
 

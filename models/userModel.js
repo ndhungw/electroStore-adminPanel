@@ -18,36 +18,44 @@ UsersModel.getAll = () => {
 
 UsersModel.paginatedResults = () => {
     return async (req, res, next) => {
+        //kiểm tra điều kiện
+        if (req.query.page < 1) {
+            req.query.page = 1;
+        }
+        if (req.query.limit < 7) {
+            req.query.limit = 7;
+        }
+
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
 
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
 
-        const resultsss = {};
+        const PaginatedResult = {};//lưu kết quả
 
-        resultsss.current = {
+        PaginatedResult.current = {
             page: page,
             limit: limit
         }
 
         if (endIndex < await UsersModel.countDocuments().exec()) {
-            resultsss.next = {
+            PaginatedResult.next = {
                 page: page + 1,
                 limit: limit
             };
         }
 
         if (startIndex > 0) {
-            resultsss.previous = {
+            PaginatedResult.previous = {
                 page: page - 1,
                 limit: limit
             };
         }
 
         try {
-            resultsss.results = await UsersModel.find().limit(limit).skip(startIndex).exec();
-            res.paginatedResults = resultsss;
+            PaginatedResult.users = await UsersModel.find().limit(limit).skip(startIndex).exec();
+            res.paginatedResults = PaginatedResult;
             next();
         } catch (e) {
             res.status(500).json({ message: e.message });

@@ -7,7 +7,7 @@ controller.getAll = async (req, res) => {
     try {
         const users = await userModel.getAll();
         console.log('sending all users...');
-        res.render('pages/tables',{user: users})
+        res.render('pages/tables',{users: users})
     }
     catch(err) {
         console.log('Error in getting users- ' + err);
