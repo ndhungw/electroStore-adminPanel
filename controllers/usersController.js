@@ -4,7 +4,7 @@ var userModel = require('../models/userModel');
 const controller = {};
 
 /**
- * Get all the users (R)
+ * Display All Users page(R)
  */
 controller.getAll = async (req, res) => {
     try {
@@ -24,11 +24,28 @@ controller.getAll = async (req, res) => {
 controller.displayAddUserPage = (req,res) => {
     try {
         console.log('loading Add User page . . .');
-        res.render('pages/users/add-user');
+        res.render('pages/users/add');
     }
     catch (err) {
         console.log('Error in loading Add User page- ' + err);
         res.send('Got error in loading Add User page');
+    }
+}
+
+/**
+ * Display the Update User page
+ */
+controller.displayUpdateUserPage = async (req, res) => {
+    let userID = req.params.id;
+
+    try {
+        const user = await userModel.getUser(userID);
+        console.log('loading Update User page . . .');
+        res.render('pages/users/update', { user: user });
+    }
+    catch (err) {
+        console.log('Error in loading Update User page- ' + err);
+        res.send('Got error in loading Update User page');
     }
 }
 
@@ -46,7 +63,7 @@ controller.addUser = async (req, res) => {
     try {
         const savedUser = await userModel.addUser(userToAdd);
         console.log('Adding user . . .');
-        res.redirect('/users/add-user');
+        res.redirect('/users/add');
         //res.send('added: ' + savedUser);
     }
     catch(err) {
@@ -56,34 +73,49 @@ controller.addUser = async (req, res) => {
 }
 
 /**
- * Delete user (D)
+ * Update user (U)
  */
-controller.deleteUser = async (req, res) => {
-    let userName = req.body.name;
-    try{
-        const removedUser = await userModel.removeUser(userName);
-        logger.info('Deleted User- ' + removedUser);
-        res.send('User successfully deleted');
+controller.updateUser = async (req, res) => {
+    let userDataToUpdate = userModel({
+        username: req.body.userName,
+        fullname: req.body.userFullName,
+        gender: req.body.userGender,
+        age: req.body.userAge
+    });
+
+    //user id of the user to update
+     let userID = req.body.userID;
+
+    try {
+        const updatedUser = await userModel.updateUser(userID, userDataToUpdate)
+        console.log('Updating user . . .');
+        res.redirect('/users');
+        //res.send('updated: ' + updatedUser);
     }
-    catch(err) {
-        logger.error('Failed to delete user- ' + err);
-        res.send('Delete failed..!');
+    catch (err) {
+        console.log('Error in updating user- ' + err);
+        res.send('Got error in updateUser');
     }
 }
 
 /**
- * Update user
+ * Delete user (D)
  */
-// controller.updateUser = async (req,res) => {
-//     let userName = req.body.name;
+controller.deleteUser = async (req, res) => {
+    let userID = req.body.userID;
 
-//     try{
-//         //const updatedUser = await userModel.
-//     }
-//     catch(err){
+    try{
+        const removedUser = await userModel.removeUser(userID);
+        console.log('Deleted User- ' + removedUser);
+        res.redirect('/users');
+        //res.send('User successfully deleted');
+    }
+    catch(err) {
+        console.log('Failed to delete user- ' + err);
+        //res.send('Delete failed..!');
+    }
+}
 
-//     }
-// }
 
 //export default controller;
 module.exports = controller;

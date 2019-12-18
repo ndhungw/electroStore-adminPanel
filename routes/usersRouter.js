@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-//var userModel = require('../models/userModel');
 var userController = require('../controllers/usersController');
 
 /* GET users listing. */
@@ -34,41 +33,38 @@ var userController = require('../controllers/usersController');
 
 /**
  * GET users listing.
+ * /users
  */
-// router.get('/', (req, res) => {
-//   userController.getAll(req, res);
-// });
-//domain/user
 router.get('/', userController.getAll);
 
 /**
  * Go to Add User page
+ * users/add-user
  */
-//  domain/user/add-user
-router.get('/add-user', userController.displayAddUserPage);
+router.get('/add', userController.displayAddUserPage);
 
 /**
  * Add new User
+ * /users/add-user
  */
-router.post('/add-user', userController.addUser);
+router.post('/add', userController.addUser);
 
 /**
  * Go to Update User page
+ * /users/update/ef09qj2409fjsda09  
  */
-//  domain/user/update/ef09qj2409fjsda09  
-router.get('/update/:id')
+router.get('/update/:id', userController.displayUpdateUserPage);
 
 /**
  * Update User
+ * /users/update/ef09qj2409fjsda09
  */
-router.post('/update/:id')
+router.post('/update/:id', userController.updateUser);
 
 /**
- * Go to Remove User page
+ * Remove User
+ * /users/update/ef09qj2409fjsda09
  */
-//  domain/user/edit/ef09qj2409fjsda09  
-router.get('/edit/:id')
-
-
+router.delete('/update/:id', userController.deleteUser);
 
 module.exports = router;

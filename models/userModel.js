@@ -1,14 +1,28 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    fullname: { type: String, required: true },
-    gender: { type: String, required: true },
-    age: { type: Number, required: true },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
+    },
+    fullname: { 
+        type: String, 
+        required: true
+    },
+    gender: { 
+        type: String, 
+        required: true 
+    },
+    age: { type: Number, 
+        required: true,//nếu kĩ phải thêm validator. (validate.isNumeric??)
+    },
 });
 
 let UsersModel = mongoose.model('User', UserSchema, 'users');
 
+//hàm tự phân trang
 UsersModel.paginatedResults = () => {
     return async (req, res, next) => {
         //kiểm tra điều kiện
@@ -56,20 +70,62 @@ UsersModel.paginatedResults = () => {
     }
 }
 
+/**
+ * Get all the users
+ */
 UsersModel.getAll = () => {
     console.log('UsersModel.getAll');
     var query = UsersModel.find({});
     return query;//nếu query.exec() thì var promise=query.exec();
 }
 
+/**
+ * Get an user with <userID>
+ */
+UsersModel.getUser = (userID) => {
+    console.log('UserModel.getUser');
+    var query = UsersModel.findById(userID);
+    return query;
+}
+
+/**
+ * Add a new user
+ */
 UsersModel.addUser = (userToAdd) => {
     console.log('UsersModel.addUser');
     return userToAdd.save();
 }
 
+/**
+ * Update user
+ */
+UsersModel.updateUser = (userID,userDataToUpdate) => {
+    console.log('UserModel.updateUser');
+    var query = UsersModel.findByIdAndUpdate(
+        {
+            _id: userID
+        },
+        {
+            $set: {
+                username: userDataToUpdate.username,
+                fullname: userDataToUpdate.fullname,
+                gender: userDataToUpdate.gender,
+                age: userDataToUpdate.age
+            }
+        },
+        {
+            useFindAndModify: false
+        }
+    )
+    return query;
+}
+
+/**
+ * Remove an user
+ */
 UsersModel.removeUser = (userName) => {
     console.log('UsersModel.removeUser');
-    return UsersModel.remove({name: userName});
+    return UsersModel.remove({ name: userName });
 }
 
 /**
