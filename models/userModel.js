@@ -9,13 +9,6 @@ const UserSchema = new mongoose.Schema({
 
 let UsersModel = mongoose.model('User', UserSchema, 'users');
 
-
-UsersModel.getAll = () => {
-    console.log('UsersModel.getAll');
-    var query = UsersModel.find({});
-    return query;//nếu query.exec() thì var promise=query.exec();
-}
-
 UsersModel.paginatedResults = () => {
     return async (req, res, next) => {
         //kiểm tra điều kiện
@@ -63,47 +56,25 @@ UsersModel.paginatedResults = () => {
     }
 }
 
+UsersModel.getAll = () => {
+    console.log('UsersModel.getAll');
+    var query = UsersModel.find({});
+    return query;//nếu query.exec() thì var promise=query.exec();
+}
 
+UsersModel.addUser = (userToAdd) => {
+    console.log('UsersModel.addUser');
+    return userToAdd.save();
+}
 
-// function paginatedResults(model) {
-//     return async (req, res, next) => {
-//       const page = parseInt(req.query.page);
-//       const limit = parseInt(req.query.limit);
+UsersModel.removeUser = (userName) => {
+    console.log('UsersModel.removeUser');
+    return UsersModel.remove({name: userName});
+}
 
-//       const startIndex = (page - 1) * limit;
-//       const endIndex = page * limit;
-
-//       const resultsss = {};
-
-//       resultsss.current = {
-//         page: page,
-//         limit: limit
-//       }
-
-//       if (endIndex < await model.countDocuments().exec()) {
-//         resultsss.next = {
-//           page: page + 1,
-//           limit: limit
-//         };
-//       }
-
-//       if (startIndex > 0) {
-//         resultsss.previous = {
-//           page: page - 1,
-//           limit: limit
-//         };
-//       }
-
-//       try{
-//         resultsss.results = await model.find().limit(limit).skip(startIndex).exec();
-//         res.paginatedResults = resultsss;
-//         next();
-//       }catch (e) {
-//         res.status(500).json({message: e.message});
-//       }
-//     }
-//   }
-
+/**
+ * Export this model
+ */
 //                              name    schema      collection
 //module.exports = mongoose.model('User',userSchema,'users');
 module.exports = UsersModel;
