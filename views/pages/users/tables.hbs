@@ -1,4 +1,4 @@
-<body id="page-top">
+{{!-- <body id="page-top">
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -15,7 +15,7 @@
 
         <!-- Topbar -->
         {{>Topbar}}
-        <!-- End of Topbar -->
+        <!-- End of Topbar --> --}}
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -53,7 +53,7 @@
                   <tbody>
                     {{#each users}}
                     <tr>
-                      <td><a href="/user/edit/{{this._id}}">{{this.username}}</a></td>
+                      <td><a href="/users/update/{{this._id}}">{{this.username}}</a></td>
                       <td>{{this.fullname}}</td>
                       <td>{{this.gender}}</td>
                       <td>{{this.age}}</td>
@@ -79,7 +79,7 @@
         </div>
         <!-- /.container-fluid -->
 
-      </div>
+      {{!-- </div>
       <!-- End of Main Content -->
 
       <!-- Footer -->
@@ -116,6 +116,6 @@
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
 
-</body>
+</body> --}}
 
 </html>

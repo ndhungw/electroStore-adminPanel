@@ -123,9 +123,9 @@ UsersModel.updateUser = (userID,userDataToUpdate) => {
 /**
  * Remove an user
  */
-UsersModel.removeUser = (userName) => {
-    console.log('UsersModel.removeUser');
-    return UsersModel.remove({ name: userName });
+UsersModel.removeUser = (userID) => {
+    console.log('UsersModel.removeUser(' + userID + ')');
+    return UsersModel.deleteOne({ _id: userID });
 }
 
 /**

@@ -84,7 +84,7 @@ controller.updateUser = async (req, res) => {
     });
 
     //user id of the user to update
-     let userID = req.body.userID;
+    let userID = req.body.userID;
 
     try {
         const updatedUser = await userModel.updateUser(userID, userDataToUpdate)
@@ -102,12 +102,13 @@ controller.updateUser = async (req, res) => {
  * Delete user (D)
  */
 controller.deleteUser = async (req, res) => {
-    let userID = req.body.userID;
+    let userID = req.params.id;
+    console.log('controller.deleteUser: userID = ' + userID);
 
     try{
         const removedUser = await userModel.removeUser(userID);
         console.log('Deleted User- ' + removedUser);
-        res.redirect('/users');
+        res.send(removedUser);
         //res.send('User successfully deleted');
     }
     catch(err) {

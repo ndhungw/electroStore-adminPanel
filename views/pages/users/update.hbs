@@ -24,6 +24,19 @@
             <label>Age</label>
             <input class="form-control" type="text" name='userAge' value="{{user.age}}">
         </div>
-        <input id="add-btn" class="btn btn-primary" type="submit" value="UPDATE USER">
+        <input id="update-btn" class="btn btn-primary" type="submit" value="UPDATE">
+        <input id="update-btn" class="btn btn-secondary" type="button" value="DELETE"
+                onclick="handleDeleteProduct('{{user._id}}')">
     </form>
 </div>
+<script>
+    function handleDeleteProduct(value) {
+        $.ajax({
+            url: '/users/update/' + value,
+            type: 'DELETE',
+            success: function (result) {
+                $(location).attr('href', '/users');
+            }
+        })
+    }
+</script>
