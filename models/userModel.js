@@ -29,8 +29,8 @@ UsersModel.paginatedResults = () => {
         if (req.query.page < 1) {
             req.query.page = 1;
         }
-        if (req.query.limit < 7) {
-            req.query.limit = 7;
+        if (req.query.limit < 5) {
+            req.query.limit = 5;
         }
 
         const page = parseInt(req.query.page);
@@ -40,6 +40,8 @@ UsersModel.paginatedResults = () => {
         const endIndex = page * limit;
 
         const PaginatedResult = {};//lưu kết quả
+
+        PaginatedResult.totalPage = 6;
 
         PaginatedResult.current = {
             page: page,

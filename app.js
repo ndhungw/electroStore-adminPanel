@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressHbs = require('express-handlebars');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+const Handlebars = require("handlebars");
 
 var database = require('./database');
 var indexRouter = require('./routes/index');
@@ -32,6 +33,28 @@ app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+//HandlebarsHelper
+
+Handlebars.registerHelper('createPagination',
+function (currentPage,totalPage){
+  let arr = '';
+  let i = 1;
+  while(i <= totalPage){
+    arr = arr.concat(`<li class="page-item ${i === currentPage ?'active' : ''}"><a class="page-link" href="/users/?page=${i}&limit=5">${i}</a></li>`);
+    i++;
+  }
+  let result = `<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="/users?page=${currentPage - 1}&limit=5">Previous</a></li>
+    ${arr}
+    <li class="page-item"><a class="page-link" href="/users?page=${currentPage + 1}&limit=5">Next</a></li>
+  </ul>
+</nav>`;
+  console.log(result);
+  return result;
+}
+);
+//end HandlebarHelper
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
