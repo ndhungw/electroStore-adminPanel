@@ -8,18 +8,6 @@ router.get('/', userModel.paginatedResults(), (req, res, next) => {
   //test by json
   //res.json(res.paginatedResults);
 
-  /*test*/
-  // var currentPage = res.paginatedResults.current;
-  // console.log('currentPage = '+ currentPage);
-
-  // var nextPage = res.paginatedResults.next;
-  // console.log('nextPage = '+ nextPage);
-
-  // var previousPage = res.paginatedResults.previous;
-  // console.log('previousPage = '+ previousPage);
-
-  //var users = res.paginatedResults.results;//kết quả trả ra theo query nhận từ req
-
   res.render('pages/users/tables',{
     paginatedResult: res.paginatedResults,
     users: res.paginatedResults.users,
