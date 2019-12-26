@@ -11,10 +11,41 @@ router.get('/index.html', function(req, res, next) {
   res.render('pages/index', { title: 'Express' });
 });
 
-/* GET login page. */
-router.get('/login.html', function(req, res, next) {
-  res.render('pages/login', { title: 'Express' });
+
+// test login for admin
+const users = [];
+const bcrypt = require('bcrypt');
+
+router.get('/login', (req, res) => {
+  res.render('pages/login');
 });
+
+router.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+
+router.post('/login', (req, res) => {
+
+});
+
+router.post('/register', async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+    users.push({
+      //id: Date.now().toString()
+      name: req.body.userFullName,
+      email: req.body.userEmail,
+      password: hashedPassword
+    })
+    res.redirect('/login')
+  } catch {
+    res.redirect('/register')
+  }
+  console.log(users);
+});
+
+
+//end test
 
 
 module.exports = router;

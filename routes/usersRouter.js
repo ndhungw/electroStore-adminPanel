@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/usersController');
 var userModel = require('../models/userModel')
+
 /* GET users listing. */
 /*xài middleware để lấy kết quả currentPage, prevPage, nextPage, làm pagination thủ công không dùng AJAX*/
 router.get('/', userModel.paginatedResults(), (req, res, next) => {
@@ -17,8 +18,6 @@ router.get('/', userModel.paginatedResults(), (req, res, next) => {
     totalPage: res.paginatedResults.totalPage,
   })
 });
-
-
 
 /**
  * GET users listing.
