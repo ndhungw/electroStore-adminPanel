@@ -36,7 +36,7 @@ app.use('/users', usersRouter);
 //HandlebarsHelper
 
 Handlebars.registerHelper('createPagination',
-function (currentPage,totalPage){
+function (totalPage, currentPage){
   let arr = '';
   let i = 1;
   while(i <= totalPage){
@@ -45,9 +45,9 @@ function (currentPage,totalPage){
   }
   let result = `<nav aria-label="Page navigation">
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="/users?page=${currentPage - 1}&limit=5">Previous</a></li>
+    <li class="page-item ${currentPage - 1 < 1 ? 'disabled' : ''}"><a class="page-link" href="/users?page=${currentPage - 1}&limit=5">Previous</a></li>
     ${arr}
-    <li class="page-item"><a class="page-link" href="/users?page=${currentPage + 1}&limit=5">Next</a></li>
+    <li class="page-item ${currentPage + 1 > totalPage ? 'disabled' : ''}"><a class="page-link" href="/users?page=${currentPage + 1}&limit=5">Next</a></li>
   </ul>
 </nav>`;
   console.log(result);

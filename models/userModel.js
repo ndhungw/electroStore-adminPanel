@@ -41,24 +41,26 @@ UsersModel.paginatedResults = () => {
 
         const PaginatedResult = {};//lưu kết quả
 
-        PaginatedResult.totalPage = 6;
+        // Tổng số trang
+        PaginatedResult.totalPage = parseInt(await UsersModel.countDocuments())/limit;
+        //console.log("PaginatedResult.totalPage = " + PaginatedResult.totalPage)
 
         PaginatedResult.current = {
             page: page,
-            limit: limit
+            limit: limit,
         }
 
         if (endIndex < await UsersModel.countDocuments().exec()) {
             PaginatedResult.next = {
                 page: page + 1,
-                limit: limit
+                limit: limit,
             };
         }
 
         if (startIndex > 0) {
             PaginatedResult.previous = {
                 page: page - 1,
-                limit: limit
+                limit: limit,
             };
         }
 

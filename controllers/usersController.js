@@ -9,6 +9,7 @@ const controller = {};
 controller.getAll = async (req, res) => {
     try {
         const users = await userModel.getAll();
+        //countDocument(users)
         console.log('sending all users...');
         res.render('pages/users/tables',{users: users})
     }

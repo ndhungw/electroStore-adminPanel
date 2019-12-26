@@ -23,10 +23,10 @@ router.get('/', userModel.paginatedResults(), (req, res, next) => {
   res.render('pages/users/tables',{
     paginatedResult: res.paginatedResults,
     users: res.paginatedResults.users,
-    totalPage: res.paginatedResults.totalPage,
     previousPage: res.paginatedResults.previous,
     currentPage: res.paginatedResults.current,
-    nextPage: res.paginatedResults.next
+    nextPage: res.paginatedResults.next,
+    totalPage: res.paginatedResults.totalPage,
   })
 });
 
