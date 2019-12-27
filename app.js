@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var flash = require('express-flash');
 var session = require('express-session');
+const methodOverride = require('method-override');
 
 var handlebarsHelper = require('./controllers/HandlebarsHelper');
 var database = require('./database');
@@ -47,7 +48,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(methodOverride('_method'));
 
 //temp
 //var users = require('./models/userModel');

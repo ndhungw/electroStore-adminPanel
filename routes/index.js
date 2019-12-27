@@ -8,6 +8,7 @@ var router = express.Router();
 // test login for admin
 var passport = require('passport')//--------------------
 const bcrypt = require('bcrypt');
+
 const users = [];
 
 var initializePassport = require('../controllers/passport-config');
@@ -18,29 +19,29 @@ initializePassport(
 );
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('pages/index', { title: 'Express' });
+router.get('/', checkAuthenticated, function(req, res, next) {
+  res.render('pages/index', { title: 'Express', name: req.user.name });
 });
 
 /* GET home page. */
 router.get('/index.html', function(req, res, next) {
   res.render('pages/index', { title: 'Express' });
 });
-router.get('/login', (req, res) => {
+router.get('/login',  checkNotAuthenticated, (req, res) => {
   res.render('pages/login');
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', checkNotAuthenticated, (req, res) => {
   res.render('pages/register');
 });
 
-router.post('/login', passport.authenticate('local', {
+router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: 'login',
   failureFlash: true
 }));
 
-router.post('/register', async (req, res) => {
+router.post('/register', checkNotAuthenticated, async (req, res) => {
   try {
     //const hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -58,6 +59,25 @@ router.post('/register', async (req, res) => {
   console.log(users);
 });
 
+router.delete('/logout', (req,res) => {
+  req.logOut()
+  res.redirect('/login')
+})
+
+function checkAuthenticated(req,res,next){
+  if(req.isAuthenticated()){
+    return next()
+  }
+
+  res.redirect('/login')
+}
+
+function checkNotAuthenticated(req,res,next){
+  if(req.isAuthenticated()){
+    return res.redirect('/');
+  }
+  next();
+}
 
 //end test
 
