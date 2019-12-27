@@ -9,13 +9,14 @@ var router = express.Router();
 var passport = require('passport')//--------------------
 const bcrypt = require('bcrypt');
 
-const users = [];
+//const users = [];
 
 var initializePassport = require('../controllers/passport-config');
+var admins = require('../models/adminModel');
 initializePassport(
   passport, 
-  email => users.find(user => user.email === email),
-  id => users.find(user => user.id === id)
+  email => admins.find(user => user.email === email),
+  id => admins.find(user => user.id === id)
 );
 
 /* GET home page. */
@@ -41,23 +42,26 @@ router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
   failureFlash: true
 }));
 
-router.post('/register', checkNotAuthenticated, async (req, res) => {
-  try {
-    //const hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    users.push({
-      id: Date.now().toString(),
-      name: req.body.name,//userFullName
-      email: req.body.email,//userEmail
-      password: hashedPassword
-    })
-    res.redirect('/login')
-  } catch (e) {
-    console.log('error : ' + e);
-    res.redirect('/register')
-  }
-  console.log(users);
-});
+// router.post('/register', checkNotAuthenticated, async (req, res) => {
+//   try {
+//     //const hashedPassword = await bcrypt.hash(req.body.userPassword, 10);
+//     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     users.push({
+//       // id: Date.now().toString(),
+//       name: req.body.name,//userFullName
+//       email: req.body.email,//userEmail
+//       password: hashedPassword
+//     })
+//     res.redirect('/login')
+//   } catch (e) {
+//     console.log('error : ' + e);
+//     res.redirect('/register')
+//   }
+//   console.log(users);
+// });
+
+var loginController = require('../controllers/loginController');
+router.post('/register', checkNotAuthenticated, loginController.addAdmin);
 
 router.delete('/logout', (req,res) => {
   req.logOut()
