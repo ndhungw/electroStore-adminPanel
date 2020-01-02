@@ -1,4 +1,4 @@
-var userModel = require('../models/userModel');
+var userModel = require('../models/memberModel');
 //import logger from '../core/logger/app-logger'
 
 const controller = {};
@@ -8,10 +8,17 @@ const controller = {};
  */
 controller.getAll = async (req, res) => {
     try {
-        const users = await userModel.getAll();
-        //countDocument(users)
+        // const users = await userModel.getAll();
+        // //countDocument(users)
         console.log('sending all users...');
-        res.render('pages/users/tables',{users: users})
+        res.render('pages/members/tables',{
+            paginatedResult: res.paginatedResults,
+            users: res.paginatedResults.users,
+            previousPage: res.paginatedResults.previous,
+            currentPage: res.paginatedResults.current,
+            nextPage: res.paginatedResults.next,
+            totalPage: res.paginatedResults.totalPage,
+          })
     }
     catch (err) {
         console.log('Error in getting users- ' + err);
@@ -19,13 +26,29 @@ controller.getAll = async (req, res) => {
     }
 }
 
+// /**
+//  * Display All Users page(R)
+//  */
+// controller.getAll = async (req, res) => {
+//     try {
+//         const users = await userModel.getAll();
+//         //countDocument(users)
+//         console.log('sending all users...');
+//         res.render('pages/manageUsers/tables',{users: users})
+//     }
+//     catch (err) {
+//         console.log('Error in getting users- ' + err);
+//         res.send('Got error in getAll');
+//     }
+// }
+
 /**
  * Display the Add User page
  */
 controller.displayAddUserPage = (req,res) => {
     try {
         console.log('loading Add User page . . .');
-        res.render('pages/users/add');
+        res.render('pages/members/add');
     }
     catch (err) {
         console.log('Error in loading Add User page- ' + err);
@@ -42,7 +65,7 @@ controller.displayUpdateUserPage = async (req, res) => {
     try {
         const user = await userModel.getUser(userID);
         console.log('loading Update User page . . .');
-        res.render('pages/users/update', { user: user });
+        res.render('pages/members/update', { user: user });
     }
     catch (err) {
         console.log('Error in loading Update User page- ' + err);
@@ -64,7 +87,7 @@ controller.addUser = async (req, res) => {
     try {
         const savedUser = await userModel.addUser(userToAdd);
         console.log('Adding user . . .');
-        res.redirect('/users/add');
+        res.redirect('/members/add');
         //res.send('added: ' + savedUser);
     }
     catch(err) {
@@ -90,7 +113,7 @@ controller.updateUser = async (req, res) => {
     try {
         const updatedUser = await userModel.updateUser(userID, userDataToUpdate)
         console.log('Updating user . . .');
-        res.redirect('/users');
+        res.redirect('/members');
         //res.send('updated: ' + updatedUser);
     }
     catch (err) {

@@ -3,7 +3,7 @@
         <h3>Home page</h3>
     </a>
     <h2>UPDATE USER</h2>
-    <form action="/users/update/{{user._id}}" method="POST">
+    <form action="/members/update/{{user._id}}" method="POST">
         <div class="form-group">
             <label>User ID</label>
             <input class="form-control" type="text" name='userID' value="{{user._id}}" readonly>
@@ -32,10 +32,10 @@
 <script>
     function handleDeleteProduct(value) {
         $.ajax({
-            url: '/users/update/' + value,
+            url: '/members/update/' + value,
             type: 'DELETE',
             success: function (result) {
-                $(location).attr('href', '/users');
+                $(location).attr('href', '/members');
             }
         })
     }
