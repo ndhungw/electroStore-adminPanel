@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const MemberSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -20,10 +20,10 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
-let UsersModel = mongoose.model('User', UserSchema, 'users');
+let MembersModel = mongoose.model('Member', MemberSchema, 'users');
 
 //hàm tự phân trang
-UsersModel.paginatedResults = () => {
+MembersModel.paginatedResults = () => {
     return async (req, res, next) => {
         //kiểm tra điều kiện
         if (req.query.page < 1) {
@@ -42,7 +42,7 @@ UsersModel.paginatedResults = () => {
         const PaginatedResult = {};//lưu kết quả
 
         // Tổng số trang
-        PaginatedResult.totalPage = parseInt(await UsersModel.countDocuments())/limit;
+        PaginatedResult.totalPage = parseInt(await MembersModel.countDocuments())/limit;
         //console.log("PaginatedResult.totalPage = " + PaginatedResult.totalPage)
 
         PaginatedResult.current = {
@@ -50,7 +50,7 @@ UsersModel.paginatedResults = () => {
             limit: limit,
         }
 
-        if (endIndex < await UsersModel.countDocuments().exec()) {
+        if (endIndex < await MembersModel.countDocuments().exec()) {
             PaginatedResult.next = {
                 page: page + 1,
                 limit: limit,
@@ -65,7 +65,7 @@ UsersModel.paginatedResults = () => {
         }
 
         try {
-            PaginatedResult.users = await UsersModel.find().limit(limit).skip(startIndex).exec();
+            PaginatedResult.users = await MembersModel.find().limit(limit).skip(startIndex).exec();
             res.paginatedResults = PaginatedResult;
             next();
         } catch (e) {
@@ -77,35 +77,35 @@ UsersModel.paginatedResults = () => {
 /**
  * Get all the users
  */
-UsersModel.getAll = () => {
-    console.log('UsersModel.getAll');
-    var query = UsersModel.find({});
+MembersModel.getAll = () => {
+    console.log('MembersModel.getAll');
+    var query = MembersModel.find({});
     return query;//nếu query.exec() thì var promise=query.exec();
 }
 
 /**
  * Get an user with <userID>
  */
-UsersModel.getUser = (userID) => {
-    console.log('UserModel.getUser');
-    var query = UsersModel.findById(userID);
+MembersModel.getUser = (userID) => {
+    console.log('MembersModel.getUser');
+    var query = MembersModel.findById(userID);
     return query;
 }
 
 /**
  * Add a new user
  */
-UsersModel.addUser = (userToAdd) => {
-    console.log('UsersModel.addUser');
+MembersModel.addUser = (userToAdd) => {
+    console.log('MembersModel.addUser');
     return userToAdd.save();
 }
 
 /**
  * Update user
  */
-UsersModel.updateUser = (userID,userDataToUpdate) => {
+MembersModel.updateUser = (userID,userDataToUpdate) => {
     console.log('UserModel.updateUser');
-    var query = UsersModel.findByIdAndUpdate(
+    var query = MembersModel.findByIdAndUpdate(
         {
             _id: userID
         },
@@ -127,9 +127,9 @@ UsersModel.updateUser = (userID,userDataToUpdate) => {
 /**
  * Remove an user
  */
-UsersModel.removeUser = (userID) => {
-    console.log('UsersModel.removeUser(' + userID + ')');
-    return UsersModel.deleteOne({ _id: userID });
+MembersModel.removeUser = (userID) => {
+    console.log('MembersModel.removeUser(' + userID + ')');
+    return MembersModel.deleteOne({ _id: userID });
 }
 
 /**
@@ -137,4 +137,4 @@ UsersModel.removeUser = (userID) => {
  */
 //                              name    schema      collection
 //module.exports = mongoose.model('User',userSchema,'users');
-module.exports = UsersModel;
+module.exports = MembersModel;

@@ -1,18 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var expressHbs = require('express-handlebars');
-var bodyParser = require('body-parser');
-var handlebarsHelper = require('./controllers/HandlebarsHelper');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const expressHbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+const handlebarsHelper = require('./controllers/HandlebarsHelper');
+require('./database');
 
-var database = require('./database');
-var indexRouter = require('./routes/indexRouter');
-var membersRouter = require('./routes/membersRouter');
-var usersRouter = require('./routes/usersRouter');
+//Passport config
+require('./config/passport')(passport);
 
-var app = express();
+const indexRouter = require('./routes/indexRouter');
+const membersRouter = require('./routes/membersRouter');
+const usersRouter = require('./routes/usersRouter');
+
+const app = express();
 
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));//config Handlebars trong project
 
@@ -31,6 +37,29 @@ app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
   extended: true
 })); 
 
+// Express session
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
+app.use(flash());
+
+// Global vars
+app.use( (req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+// Route
 app.use('/', indexRouter);
 app.use('/members', membersRouter)
 app.use('/users', usersRouter);

@@ -1,6 +1,6 @@
 const Handlebars = require("handlebars");
 
-//HandlebarsHelper
+//Create pagination
 Handlebars.registerHelper('createPagination',
 function (totalPage, currentPage){
   let arr = '';
@@ -16,8 +16,57 @@ function (totalPage, currentPage){
     <li class="page-item ${currentPage + 1 > totalPage ? 'disabled' : ''}"><a class="page-link" href="/users?page=${currentPage + 1}&limit=5">Next</a></li>
   </ul>
 </nav>`;
-  console.log(result);
+  //console.log(result);
   return result;
 }
 );
-//end HandlebarHelper
+
+//Display message error
+Handlebars.registerHelper('displayErrorMessage',
+function (errors){
+  if(typeof errors != 'undefined') {
+    let s = ''
+    errors.forEach(error => {
+      let makedupMsg = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        ${error.msg}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>`;
+      s = s.concat(s,makedupMsg);
+    });
+    return s
+  }else{
+    console.log('no error')
+  }
+});
+
+Handlebars.registerHelper('displayFlashMessage', 
+function(successMsg, errorMsg, error) {
+  if (successMsg != '') {
+    return `<div class="alert alert-success alert-dismissible fade show" role="alert">
+        ${successMsg}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>`;
+  }
+
+  if (errorMsg != '') {
+    return `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        ${errorMsg}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>`;
+  }
+
+  if (error != '') {
+    return `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        ${error}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>`;
+  }
+});
