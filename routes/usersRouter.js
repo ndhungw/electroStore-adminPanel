@@ -21,7 +21,7 @@ router.post('/register', function (req, res, next) {
   console.log(req.body);
   // res.send("yeah");
 
-  const { name, email, password, password2 } = req.body;
+  const { name, email, password, password2, avatarURL } = req.body;
 
   let errors = [];
 
@@ -47,7 +47,8 @@ router.post('/register', function (req, res, next) {
       name,
       email,
       password,
-      password2
+      password2,
+      avatarURL
     });
   } else {
     userModel.findOne({ email: email })
@@ -60,13 +61,15 @@ router.post('/register', function (req, res, next) {
             name,
             email,
             password,
-            password2
+            password2,
+            avatarURL
           });
         } else {
           const newUser = new userModel({
             name,
             email,
-            password
+            password,
+            avatarURL
           });
           console.log('new user\n' + newUser);
           //res.send("register successfully");
