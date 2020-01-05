@@ -65,7 +65,7 @@ MembersModel.paginatedResults = () => {
         }
 
         try {
-            PaginatedResult.users = await MembersModel.find().limit(limit).skip(startIndex).exec();
+            PaginatedResult.members = await MembersModel.find().limit(limit).skip(startIndex).exec();
             res.paginatedResults = PaginatedResult;
             next();
         } catch (e) {
@@ -75,7 +75,7 @@ MembersModel.paginatedResults = () => {
 }
 
 /**
- * Get all the users
+ * Get all the members
  */
 MembersModel.getAll = () => {
     console.log('MembersModel.getAll');
@@ -84,37 +84,37 @@ MembersModel.getAll = () => {
 }
 
 /**
- * Get an user with <userID>
+ * Get an member with <memberID>
  */
-MembersModel.getUser = (userID) => {
-    console.log('MembersModel.getUser');
-    var query = MembersModel.findById(userID);
+MembersModel.getMember = (memberID) => {
+    console.log('MembersModel.getMember');
+    var query = MembersModel.findById(memberID);
     return query;
 }
 
 /**
- * Add a new user
+ * Add a new member
  */
-MembersModel.addUser = (userToAdd) => {
-    console.log('MembersModel.addUser');
-    return userToAdd.save();
+MembersModel.addMember = (memberToAdd) => {
+    console.log('MembersModel.addMember');
+    return memberToAdd.save();
 }
 
 /**
- * Update user
+ * Update member
  */
-MembersModel.updateUser = (userID,userDataToUpdate) => {
-    console.log('UserModel.updateUser');
+MembersModel.updateMember = (memberID, memberDataToUpdate) => {
+    console.log('MemberModel.updateMember');
     var query = MembersModel.findByIdAndUpdate(
         {
-            _id: userID
+            _id: memberID
         },
         {
             $set: {
-                username: userDataToUpdate.username,
-                fullname: userDataToUpdate.fullname,
-                gender: userDataToUpdate.gender,
-                age: userDataToUpdate.age
+                username: memberDataToUpdate.username,
+                fullname: memberDataToUpdate.fullname,
+                gender: memberDataToUpdate.gender,
+                age: memberDataToUpdate.age
             }
         },
         {
@@ -125,16 +125,16 @@ MembersModel.updateUser = (userID,userDataToUpdate) => {
 }
 
 /**
- * Remove an user
+ * Remove an member
  */
-MembersModel.removeUser = (userID) => {
-    console.log('MembersModel.removeUser(' + userID + ')');
-    return MembersModel.deleteOne({ _id: userID });
+MembersModel.removeMember = (memberID) => {
+    console.log('MembersModel.removeMember(' + memberID + ')');
+    return MembersModel.deleteOne({ _id: memberID });
 }
 
 /**
  * Export this model
  */
 //                              name    schema      collection
-//module.exports = mongoose.model('User',userSchema,'users');
+//module.exports = mongoose.model('Member',memberSchema,'users');
 module.exports = MembersModel;

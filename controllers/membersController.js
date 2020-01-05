@@ -1,146 +1,151 @@
-var userModel = require('../models/memberModel');
+const memberModel = require('../models/memberModel');
 //import logger from '../core/logger/app-logger'
 
 const controller = {};
 
 /**
- * Display All Users page(R)
+ * Display All Members page(R)
  */
 controller.getAll = async (req, res) => {
     try {
-        // const users = await userModel.getAll();
-        // //countDocument(users)
-        console.log('sending all users...');
+        // const members = await memberModel.getAll();
+        // //countDocument(members)
+        console.log('sending all members...');
         res.render('pages/members/tables',{
             paginatedResult: res.paginatedResults,
-            users: res.paginatedResults.users,
+            members: res.paginatedResults.members,
             previousPage: res.paginatedResults.previous,
             currentPage: res.paginatedResults.current,
             nextPage: res.paginatedResults.next,
             totalPage: res.paginatedResults.totalPage,
+            user: req.user
           })
     }
     catch (err) {
-        console.log('Error in getting users- ' + err);
+        console.log('Error in getting members- ' + err);
         res.send('Got error in getAll');
     }
 }
 
 // /**
-//  * Display All Users page(R)
+//  * Display All Members page(R)
 //  */
 // controller.getAll = async (req, res) => {
 //     try {
-//         const users = await userModel.getAll();
-//         //countDocument(users)
-//         console.log('sending all users...');
-//         res.render('pages/manageUsers/tables',{users: users})
+//         const members = await memberModel.getAll();
+//         //countDocument(members)
+//         console.log('sending all members...');
+//         res.render('pages/members/tables',{members: members})
 //     }
 //     catch (err) {
-//         console.log('Error in getting users- ' + err);
+//         console.log('Error in getting members- ' + err);
 //         res.send('Got error in getAll');
 //     }
 // }
 
 /**
- * Display the Add User page
+ * Display the Add Member page
  */
-controller.displayAddUserPage = (req,res) => {
+controller.displayAddMemberPage = (req,res) => {
     try {
-        console.log('loading Add User page . . .');
-        res.render('pages/members/add');
+        console.log('loading Add Member page . . .');
+        res.render('pages/members/add', {
+            user: req.user
+        });
     }
     catch (err) {
-        console.log('Error in loading Add User page- ' + err);
-        res.send('Got error in loading Add User page');
+        console.log('Error in loading Add Member page- ' + err);
+        res.send('Got error in loading Add Member page');
     }
 }
 
 /**
- * Display the Update User page
+ * Display the Update Member page
  */
-controller.displayUpdateUserPage = async (req, res) => {
-    let userID = req.params.id;
+controller.displayUpdateMemberPage = async (req, res) => {
+    let memberID = req.params.id;
 
     try {
-        const user = await userModel.getUser(userID);
-        console.log('loading Update User page . . .');
-        res.render('pages/members/update', { user: user });
+        const member = await memberModel.getMember(memberID);
+        console.log('loading Update Member page . . .');
+        res.render('pages/members/update', { 
+            member: member,
+            user: req.user
+        });
     }
     catch (err) {
-        console.log('Error in loading Update User page- ' + err);
-        res.send('Got error in loading Update User page');
+        console.log('Error in loading Update Member page- ' + err);
+        res.send('Got error in loading Update Member page');
     }
 }
 
 /**
- * Add User (C)
+ * Add Member (C)
  */
-controller.addUser = async (req, res) => {
-    let userToAdd = userModel({
-        username: req.body.userName,
-        fullname: req.body.userFullName,
-        gender: req.body.userGender,
-        age: req.body.userAge
+controller.addMember = async (req, res) => {
+    let memberToAdd = memberModel({
+        username: req.body.memberUsername,
+        fullname: req.body.memberFullName,
+        gender: req.body.memberGender,
+        age: req.body.memberAge
     });
 
     try {
-        const savedUser = await userModel.addUser(userToAdd);
-        console.log('Adding user . . .');
+        const savedMember = await memberModel.addMember(memberToAdd);
+        console.log('Adding member . . .');
         res.redirect('/members/add');
-        //res.send('added: ' + savedUser);
+        //res.send('added: ' + savedMember);
     }
     catch(err) {
-        console.log('Error in getting users- ' + err);
-        res.send('Got error in addUser');
+        console.log('Error in getting members- ' + err);
+        res.send('Got error in addMember');
     }
 }
 
 /**
- * Update user (U)
+ * Update member (U)
  */
-controller.updateUser = async (req, res) => {
-    let userDataToUpdate = userModel({
-        username: req.body.userName,
-        fullname: req.body.userFullName,
-        gender: req.body.userGender,
-        age: req.body.userAge
+controller.updateMember = async (req, res) => {
+    let memberDataToUpdate = memberModel({
+        username: req.body.memberUsername,
+        fullname: req.body.memberFullName,
+        gender: req.body.memberGender,
+        age: req.body.memberAge
     });
 
-    //user id of the user to update
-    let userID = req.body.userID;
+    //member id of the member to update
+    let memberID = req.body.memberID;
 
     try {
-        const updatedUser = await userModel.updateUser(userID, userDataToUpdate)
-        console.log('Updating user . . .');
+        const updatedMember = await memberModel.updateMember(memberID, memberDataToUpdate)
+        console.log('Updating member . . .');
         res.redirect('/members');
-        //res.send('updated: ' + updatedUser);
+        //res.send('updated: ' + updatedMember);
     }
     catch (err) {
-        console.log('Error in updating user- ' + err);
-        res.send('Got error in updateUser');
+        console.log('Error in updating member- ' + err);
+        res.send('Got error in updateMember');
     }
 }
 
 /**
- * Delete user (D)
+ * Delete member (D)
  */
-controller.deleteUser = async (req, res) => {
-    let userID = req.params.id;
-    console.log('controller.deleteUser: userID = ' + userID);
+controller.deleteMember = async (req, res) => {
+    let memberID = req.params.id;
+    console.log('controller.deleteMember: memberID = ' + memberID);
 
     try{
-        const removedUser = await userModel.removeUser(userID);
-        console.log('Deleted User- ' + removedUser);
-        res.send(removedUser);
-        //res.send('User successfully deleted');
+        const removedMember = await memberModel.removeMember(memberID);
+        console.log('Deleted Member- ' + removedMember);
+        res.send(removedMember);
+        //res.send('Member successfully deleted');
     }
     catch(err) {
-        console.log('Failed to delete user- ' + err);
+        console.log('Failed to delete member- ' + err);
         //res.send('Delete failed..!');
     }
 }
-
 
 //export default controller;
 module.exports = controller;

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -15,7 +16,6 @@ const UserSchema = new mongoose.Schema({
     },
     avatarURL: {
         type: String,
-        
     },
     date: {
         type: String,
@@ -26,8 +26,44 @@ const UserSchema = new mongoose.Schema({
 let UserModel = mongoose.model('User', UserSchema, 'administrators');
 
 /**
+ * Get an user with <userID>
+ */
+UserModel.getUser = (userID) => {
+    console.log('UserModel.getUser');
+    var query = UserModel.findById(userID);
+    return query;
+}
+
+
+/**
+ * Update user
+ */
+UserModel.updateUser = async (userID,userDataToUpdate) => {
+    console.log('UserModel.updateUser');
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(userDataToUpdate.password, 10); 
+
+    var query = UserModel.findByIdAndUpdate(
+        {
+            _id: userID
+        },
+        {
+            $set: {
+                name: userDataToUpdate.name,
+                password: hashedPassword
+            }
+        },
+        {
+            useFindAndModify: false
+        }
+    )
+    return query;
+}
+
+/**
  * Export this model
  */
 //                              name    schema      collection
 //module.exports = mongoose.model('User',userSchema,'users');
-module.exports = UserModel;
+module.exports = UserModel; 

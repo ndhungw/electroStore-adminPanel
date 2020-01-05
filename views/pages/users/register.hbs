@@ -46,19 +46,19 @@
                             <form class="user" action="/users/register" method="POST">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="name"
-                                            id="userFullName" placeholder="Full name">
+                                            id="userFullName" placeholder="Full name" value="{{name}}">
                                     </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address">
+                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address" value="{{email}}">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
+                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password" value="">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" name="password2" placeholder="Repeat Password">
+                                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" name="password2" placeholder="Repeat Password" value="">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="exampleAvatarURL" name="avatarURL" placeholder="Avatar URL">
+                                    <input type="text" class="form-control form-control-user" id="exampleAvatarURL" name="avatarURL" placeholder="Avatar URL (Optional)" value="">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">Register!!!</button>

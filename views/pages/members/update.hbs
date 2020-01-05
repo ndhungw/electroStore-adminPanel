@@ -3,30 +3,30 @@
         <h3>Home page</h3>
     </a>
     <h2>UPDATE USER</h2>
-    <form action="/members/update/{{user._id}}" method="POST">
+    <form action="/members/update/{{member._id}}" method="POST">
         <div class="form-group">
             <label>User ID</label>
-            <input class="form-control" type="text" name='userID' value="{{user._id}}" readonly>
+            <input class="form-control" type="text" name='memberID' value="{{member._id}}" readonly>
         </div>
         <div class="form-group">
             <label>Username</label>
-            <input class="form-control" type="text" name='userName' value="{{user.username}}">
+            <input class="form-control" type="text" name='memberUsername' value="{{member.username}}">
         </div>
         <div class="form-group">
             <label>Full name</label>
-            <input class="form-control" type="text" name='userFullName' value="{{user.fullname}}">
+            <input class="form-control" type="text" name='memberFullName' value="{{member.fullname}}">
         </div>
         <div class="form-group">
             <label>Gender</label>
-            <input class="form-control" type="text" name='userGender' value="{{user.gender}}">
+            <input class="form-control" type="text" name='memberGender' value="{{member.gender}}">
         </div>
         <div class="form-group">
             <label>Age</label>
-            <input class="form-control" type="text" name='userAge' value="{{user.age}}">
+            <input class="form-control" type="text" name='memberAge' value="{{member.age}}">
         </div>
         <input id="update-btn" class="btn btn-primary" type="submit" value="UPDATE">
         <input id="update-btn" class="btn btn-secondary" type="button" value="DELETE"
-                onclick="handleDeleteProduct('{{user._id}}')">
+                onclick="handleDeleteProduct('{{member._id}}')">
     </form>
 </div>
 <script>
