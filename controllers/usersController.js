@@ -197,7 +197,7 @@ controller.updateUser = async (req, res) => {
     
     if (!isMatch) {
         console.log('password not match');
-        // req.flash('success_msg', 'password not match');
+        // req.flash('error_msg', 'password not match');
         return;
     }
 

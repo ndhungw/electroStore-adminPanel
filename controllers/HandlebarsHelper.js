@@ -69,4 +69,4 @@ function(successMsg, errorMsg, error) {
         </button>
       </div>`;
   }
-});
+}); 
