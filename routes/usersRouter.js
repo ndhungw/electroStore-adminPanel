@@ -47,4 +47,7 @@ router.get('/profile', ensureAuthenticated, usersController.displayProfile)
 
 // router.post('/update/:id', ensureAuthenticated, usersController.updateUser);
 
+// VERIFICATION EMAIL
+router.get('/email-verification', usersController.activateUser);
+
 module.exports = router; 

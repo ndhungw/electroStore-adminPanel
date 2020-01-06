@@ -21,6 +21,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: Date.now
     },
+    isActive: {
+        type: Boolean,
+        default: 0
+    },
+    isBlocked: {
+        type: Boolean,
+        default: 0
+    }
 });
 
 let UserModel = mongoose.model('User', UserSchema, 'administrators');
@@ -53,6 +61,22 @@ UserModel.updateUser = async (userID,userDataToUpdate) => {
                 name: userDataToUpdate.name,
                 password: hashedPassword
             }
+        },
+        {
+            useFindAndModify: false
+        }
+    )
+    return query;
+}
+
+
+UserModel.setActiveStatus = async (userID) => {
+    var query = await UserModel.findByIdAndUpdate(
+        {
+            _id: userID
+        },
+        {
+            $set: { isActive: 1 }
         },
         {
             useFindAndModify: false

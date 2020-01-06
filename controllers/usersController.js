@@ -1,4 +1,5 @@
 var userModel = require('../models/userModel');
+const mailer = require('../config/nodemailer')
 const bcrypt = require('bcryptjs')
 //import logger from '../core/logger/app-logger'
 
@@ -49,6 +50,7 @@ controller.registerNewUser = async (req, res) => {
             });
             try {
                 await newUser.save();
+                await mailer.sendVerificationEmail(newUser);
                 console.log('new user\n' + newUser);
 
                 req.flash('success_msg', 'You are now registered and can log in');
@@ -60,32 +62,9 @@ controller.registerNewUser = async (req, res) => {
     }
 }
 
-// /**
-//  * Display All Users page(R)
-//  */
-// controller.getAll = async (req, res) => {
-//     try {
-//         // const users = await userModel.getAll();
-//         // //countDocument(users)
-//         console.log('sending all users...');
-//         res.render('pages/members/tables',{
-//             paginatedResult: res.paginatedResults,
-//             users: res.paginatedResults.users,
-//             previousPage: res.paginatedResults.previous,
-//             currentPage: res.paginatedResults.current,
-//             nextPage: res.paginatedResults.next,
-//             totalPage: res.paginatedResults.totalPage,
-//           })
-//     }
-//     catch (err) {
-//         console.log('Error in getting users- ' + err);
-//         res.send('Got error in getAll');
-//     }
-// }
-
-// /**
-//  * Display All Users page(R)
-//  */
+/**
+ * Display All Users page(R) 
+ */
 // controller.getAll = async (req, res) => {
 //     try {
 //         const users = await userModel.getAll();
@@ -100,7 +79,7 @@ controller.registerNewUser = async (req, res) => {
 // }
 
 // /**
-//  * Display the Add User page
+//  * Display the Add User page (feature for superAdmin to add other admins)
 //  */
 // controller.displayAddUserPage = (req,res) => {
 //     try {
@@ -154,13 +133,14 @@ controller.displayUpdateUserPage = async (req, res) => {
 // }
 
 /**
- * Display Profile (U)
+ * Display Profile
  */
 controller.displayProfile = (req,res) => {
     res.render('pages/users/profile', {
         user: req.user
     });
 }
+
 /**
  * Update user (U)
  */
@@ -239,6 +219,20 @@ controller.updateUser = async (req, res) => {
 //     }
 // }
 
+// VERIFICATION
+controller.activateUser = async (req, res) => {
+    const userID = req.query.id;
+    console.log('const userID = req.query.id = '+userID);
+
+    try {
+        const activatedUser = await userModel.setActiveStatus(userID);
+        console.log(activatedUser);
+        res.render('pages/users/verified');
+    } catch (err) {
+        console.log('ERROR in VERIFICATION: userModel.setActiveStatus(userID) false - ' + err);
+    }
+
+}
 
 //export default controller;
 module.exports = controller; 
