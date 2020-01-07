@@ -51,9 +51,26 @@
               </ul>
               <div class="tab-content pt-3">
                 <div class="tab-pane active">
-                  <form class="form" novalidate="">
+                  {{>messages}}
+                  <form class="form" novalidate="" action="users/profile" method="POST">
                     <div class="row">
                       <div class="col">
+                        
+                         <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>ID</label>
+                              <input class="form-control" type="text" name="userID" readonly="true" value="{{user._id}}">
+                            </div>
+                          </div>
+                          {{!-- <div class="col">
+                            <div class="form-group">
+                              <label>Username</label>
+                              <input class="form-control" type="text" name="username" placeholder="johnny.s" value="johnny.s">
+                            </div>
+                          </div> --}}
+                        </div>
+
                         <div class="row">
                           <div class="col">
                             <div class="form-group">
@@ -72,7 +89,7 @@
                           <div class="col">
                             <div class="form-group">
                               <label>Email</label>
-                              <input class="form-control" type="text" placeholder="{{user.email}}">
+                              <input class="form-control" type="text" name="email" value="{{user.email}}">
                             </div>
                           </div>
                         </div>
@@ -93,7 +110,7 @@
                           <div class="col">
                             <div class="form-group">
                               <label>Current Password</label>
-                              <input class="form-control" type="password" placeholder="••••••">
+                              <input class="form-control" name="userPassword" type="password" placeholder="••••••">
                             </div>
                           </div>
                         </div>
@@ -101,7 +118,8 @@
                           <div class="col">
                             <div class="form-group">
                               <label>New Password</label>
-                              <input class="form-control" type="password" placeholder="••••••">
+                              <input id="newPassword" name="newPassword" class="form-control" 
+                              onkeyup='check();' type="password" placeholder="••••••">
                             </div>
                           </div>
                         </div>
@@ -109,7 +127,9 @@
                           <div class="col">
                             <div class="form-group">
                               <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
-                              <input class="form-control" type="password" placeholder="••••••"></div>
+                              <input id="cofirmPassword" name="cofirmPassword" class="form-control" 
+                              onkeyup='check();' type="password" placeholder="••••••"></div>
+                              <span id='message'></span>
                           </div>
                         </div>
                       </div>
@@ -173,4 +193,5 @@
 
   </div>
 </div>
+<script src="js/check.js"></script>
 </div>

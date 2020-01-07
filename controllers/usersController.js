@@ -62,6 +62,67 @@ controller.registerNewUser = async (req, res) => {
     }
 }
 
+controller.editUser = async (req, res) => {
+    let userID = req.body.userID;
+
+    const {name, email, userPassword, newPassword, cofirmPassword } = req.body;
+    
+    let errors = [];
+
+    //check required fields
+    if (!name || !email || !userPassword || !newPassword || !cofirmPassword) {
+        errors.push({ msg: 'Please fill all fields !!!!!' });
+    }
+
+    //check password match
+    if (userPassword === newPassword) {
+        errors.push({ msg: 'New password is same old password' });
+    }
+
+    if (newPassword !== cofirmPassword) {
+        errors.push({ msg: 'No match' });
+    }
+
+    //check pass length
+    if (newPassword.length < 6) {
+        errors.push({ msg: 'New password should be at least 6 characters' })
+    }
+
+    if (errors.length > 0) {
+        console.log("have issues in update user info");
+        res.render('pages/users/profile', { errors, user: req.user });
+    } else {
+
+    //Check if match Password
+    const userToUpdate = await userModel.findById(userID);
+    let isMatch = await bcrypt.compare(req.body.userPassword, userToUpdate.password);
+    
+    if (!isMatch) {
+        console.log('password not match');
+        // req.flash('error_msg', 'password not match');
+        return;
+    }
+
+    let userDataToUpdate = userModel({
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.newPassword,
+    });
+
+    try {
+        const updatedUser = await userModel.updateUser(userID, userDataToUpdate)
+        console.log('Updating user . . .');
+        res.redirect('/');
+        //res.send('updated: ' + updatedUser);
+    }
+    catch (err) {
+        console.log('Error in updating user- ' + err);
+        res.send('Got error in updateUser');
+    }
+}
+
+}
+
 /**
  * Display All Users page(R) 
  */

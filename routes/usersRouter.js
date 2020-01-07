@@ -41,7 +41,12 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 })
 
-router.get('/profile', ensureAuthenticated, usersController.displayProfile)
+//get
+router.get('/profile', ensureAuthenticated, usersController.displayProfile);
+
+//post
+router.post('/profile', ensureAuthenticated, usersController.editUser);
+
 
 // router.get('/update/:id', ensureAuthenticated, usersController.displayUpdateUserPage);
 
