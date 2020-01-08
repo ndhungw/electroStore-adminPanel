@@ -2,17 +2,17 @@ var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/membersController');
 var userModel = require('../models/memberModel');
-const {ensureAuthenticated} = require('../config/auth');
+const auth = require('../config/auth');
 
 /* GET users listing. */
 /*xài middleware để lấy kết quả currentPage, prevPage, nextPage, làm pagination thủ công không dùng AJAX*/
-router.get('/', ensureAuthenticated, userModel.paginatedResults(), userController.getAll);
+router.get('/', auth.ensureAuthenticated, userModel.paginatedResults(), userController.getAll);
 
 /**
  * Go to Add Member page
  * members/add-user
  */
-router.get('/add', ensureAuthenticated, userController.displayAddMemberPage);
+router.get('/add', auth.ensureAuthenticated, userController.displayAddMemberPage);
 
 /**
  * Add new Member
@@ -24,7 +24,7 @@ router.get('/add', ensureAuthenticated, userController.displayAddMemberPage);
  * Go to Update Member page
  * /members/update/ef09qj2409fjsda09  
  */
-router.get('/update/:id', ensureAuthenticated, userController.displayUpdateMemberPage);
+router.get('/update/:id', auth.ensureAuthenticated, userController.displayUpdateMemberPage);
 
 /**
  * Update Member
@@ -36,6 +36,6 @@ router.get('/update/:id', ensureAuthenticated, userController.displayUpdateMembe
  * Remove Member
  * /members/update/ef09qj2409fjsda09
  */
-router.delete('/update/:id', ensureAuthenticated, userController.deleteMember);
+router.delete('/update/:id', auth.ensureAuthenticated, userController.deleteMember);
 
 module.exports = router;

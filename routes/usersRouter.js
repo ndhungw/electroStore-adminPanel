@@ -4,7 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
-const {ensureAuthenticated} = require('../config/auth');
+const auth = require('../config/auth');
 
 // Model
 const userModel = require('../models/userModel');
@@ -13,12 +13,12 @@ const userModel = require('../models/userModel');
 const usersController = require('../controllers/usersController');
 
 /* GET login page. */
-router.get('/login', function (req, res, next) {
+router.get('/login', auth.checkAlreadyLoggedIn,  function (req, res, next) {
   res.render('pages/users/login', { title: 'Đăng nhập' });
 });
 
 /* GET register page. */
-router.get('/register', function (req, res, next) {
+router.get('/register', auth.checkAlreadyLoggedIn, function (req, res, next) {
   res.render('pages/users/register', { title: 'Đăng kí' });
 });
 
@@ -42,10 +42,10 @@ router.get('/logout', (req, res) => {
 })
 
 //get
-router.get('/profile', ensureAuthenticated, usersController.displayProfile);
+router.get('/profile', auth.ensureAuthenticated, usersController.displayProfile);
 
 //post
-router.post('/profile', ensureAuthenticated, usersController.editUser);
+router.post('/profile', auth.ensureAuthenticated, usersController.editUser);
 
 
 // router.get('/update/:id', ensureAuthenticated, usersController.displayUpdateUserPage);

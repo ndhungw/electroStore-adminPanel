@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {ensureAuthenticated} = require('../config/auth');
+const auth = require('../config/auth');
 
 /* GET home page. */
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/', auth.ensureAuthenticated, function(req, res, next) {
     res.render('pages/index', { 
       title: 'Trang chủ',
       user: req.user
@@ -11,7 +11,7 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
   });
   
   /* GET home page. */
-  router.get('/index.html', ensureAuthenticated, function(req, res, next) {
+  router.get('/index.html', auth.ensureAuthenticated, function(req, res, next) {
     res.render('pages/index', { 
       title: 'Trang chủ',
       user: req.user }
