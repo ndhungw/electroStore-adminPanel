@@ -1,13 +1,13 @@
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const expressHbs = require('express-handlebars');
-const bodyParser = require('body-parser');
 const flash = require('connect-flash');
-const session = require('express-session');
+const logger = require('morgan');
+const path = require('path');
 const passport = require('passport');
+const session = require('express-session');
 
 const handlebarsHelper = require('./controllers/HandlebarsHelper');
 require('./database');
