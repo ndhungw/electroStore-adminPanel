@@ -7,16 +7,27 @@ const MemberSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
-    fullname: { 
+    password: { 
         type: String, 
         required: true
     },
-    gender: { 
+    firstname: { 
+        type: String, 
+        required: true
+    },
+    lastname: { 
+        type: String, 
+        required: true
+    },
+    email: { 
         type: String, 
         required: true 
     },
-    age: { type: Number, 
-        required: true,//nếu kĩ phải thêm validator. (validate.isNumeric??)
+    isActive: { type: Boolean, 
+        required: true,
+    },
+    isBlocked: { type: Boolean, 
+        required: true,
     },
 });
 
@@ -112,9 +123,11 @@ MembersModel.updateMember = (memberID, memberDataToUpdate) => {
         {
             $set: {
                 username: memberDataToUpdate.username,
-                fullname: memberDataToUpdate.fullname,
-                gender: memberDataToUpdate.gender,
-                age: memberDataToUpdate.age
+                firstname: memberDataToUpdate.firstname,
+                lastname: memberDataToUpdate.lastname,
+                email: memberDataToUpdate.email,
+                isActive: memberDataToUpdate.isActive,
+                isBlocked: memberDataToUpdate.isBlocked
             }
         },
         {

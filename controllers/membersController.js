@@ -82,51 +82,51 @@ controller.displayUpdateMemberPage = async (req, res) => {
 /**
  * Add Member (C)
  */
-controller.addMember = async (req, res) => {
-    let memberToAdd = memberModel({
-        username: req.body.memberUsername,
-        fullname: req.body.memberFullName,
-        gender: req.body.memberGender,
-        age: req.body.memberAge
-    });
+// controller.addMember = async (req, res) => {
+//     let memberToAdd = memberModel({
+//         username: req.body.memberUsername,
+//         fullname: req.body.memberFullName,
+//         gender: req.body.memberGender,
+//         age: req.body.memberAge
+//     });
 
-    try {
-        const savedMember = await memberModel.addMember(memberToAdd);
-        console.log('Adding member . . .');
-        res.redirect('/members/add');
-        //res.send('added: ' + savedMember);
-    }
-    catch(err) {
-        console.log('Error in getting members- ' + err);
-        res.send('Got error in addMember');
-    }
-}
+//     try {
+//         const savedMember = await memberModel.addMember(memberToAdd);
+//         console.log('Adding member . . .');
+//         res.redirect('/members/add');
+//         //res.send('added: ' + savedMember);
+//     }
+//     catch(err) {
+//         console.log('Error in getting members- ' + err);
+//         res.send('Got error in addMember');
+//     }
+// }
 
 /**
  * Update member (U)
  */
-controller.updateMember = async (req, res) => {
-    let memberDataToUpdate = memberModel({
-        username: req.body.memberUsername,
-        fullname: req.body.memberFullName,
-        gender: req.body.memberGender,
-        age: req.body.memberAge
-    });
+// controller.updateMember = async (req, res) => {
+//     let memberDataToUpdate = memberModel({
+//         username: req.body.memberUsername,
+//         fullname: req.body.memberFullName,
+//         gender: req.body.memberGender,
+//         age: req.body.memberAge
+//     });
 
-    //member id of the member to update
-    let memberID = req.body.memberID;
+//     //member id of the member to update
+//     let memberID = req.body.memberID;
 
-    try {
-        const updatedMember = await memberModel.updateMember(memberID, memberDataToUpdate)
-        console.log('Updating member . . .');
-        res.redirect('/members');
-        //res.send('updated: ' + updatedMember);
-    }
-    catch (err) {
-        console.log('Error in updating member- ' + err);
-        res.send('Got error in updateMember');
-    }
-}
+//     try {
+//         const updatedMember = await memberModel.updateMember(memberID, memberDataToUpdate)
+//         console.log('Updating member . . .');
+//         res.redirect('/members');
+//         //res.send('updated: ' + updatedMember);
+//     }
+//     catch (err) {
+//         console.log('Error in updating member- ' + err);
+//         res.send('Got error in updateMember');
+//     }
+// }
 
 /**
  * Delete member (D)

@@ -36,27 +36,30 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>User Name</th>
-                      <th>Name</th>
-                      <th>Gender</th>
-                      <th>Age</th>
+                      <th>Username</th>
+                      <th>Full name</th>
+                      <th>Email</th>
+                      <th>Active Status</th>
+                      <th>Blocked Status</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Username</th>
                       <th>Full name</th>
-                      <th>Gender</th>
-                      <th>Age</th>
+                      <th>Email</th>
+                      <th>Active Status</th>
+                      <th>Blocked Status</th>
                     </tr>
                   </tfoot>
                   <tbody>
                     {{#each members}}
                     <tr>
                       <td><a href="/members/update/{{this._id}}">{{this.username}}</a></td>
-                      <td>{{this.fullname}}</td>
-                      <td>{{this.gender}}</td>
-                      <td>{{this.age}}</td>
+                      <td>{{this.firstname}} {{this.lastname}}</td>
+                      <td>{{this.email}}</td>
+                      <td>{{this.isActive}}</td>
+                      <td>{{this.isBlocked}}</td>
                     </tr>
                     {{/each}}
                   </tbody>
@@ -64,7 +67,7 @@
               </div>
 
               {{!-- handlebars Helper: tạo thanh phân trang, <tên>, <ds tham số>--}}
-              {{{createPagination totalPage currentPage.page previousPageStatus nextPageStatus}}}
+              {{!-- {{{createPagination totalPage currentPage.page previousPageStatus nextPageStatus}}} --}}
 
             </div>
           </div>

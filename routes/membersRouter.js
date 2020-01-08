@@ -18,7 +18,7 @@ router.get('/add', ensureAuthenticated, userController.displayAddMemberPage);
  * Add new Member
  * /members/add-user
  */
-router.post('/add', ensureAuthenticated, userController.addMember);
+// router.post('/add', ensureAuthenticated, userController.addMember);
 
 /**
  * Go to Update Member page
@@ -30,7 +30,7 @@ router.get('/update/:id', ensureAuthenticated, userController.displayUpdateMembe
  * Update Member
  * /members/update/ef09qj2409fjsda09
  */
-router.post('/update/:id', ensureAuthenticated, userController.updateMember);
+// router.post('/update/:id', ensureAuthenticated, userController.updateMember);
 
 /**
  * Remove Member
