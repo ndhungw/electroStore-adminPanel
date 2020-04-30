@@ -19,7 +19,7 @@
     "handlebars": "^4.5.3",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mongoose": "^5.8.1",
     "morgan": "~1.9.1",
     "nodemailer": "^6.4.2",
